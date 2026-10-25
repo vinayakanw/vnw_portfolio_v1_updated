@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48">
+  <!-- Burp Suite Brand Icon -->
+  <rect width="24" height="24" rx="5" fill="#FF6633"/>
+  <path d="M4.5 12h3m9 0h3M7.5 7.5h9v9h-9z" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <path d="M12 4.5v3m0 9v3" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"/>
+</svg>

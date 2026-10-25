@@ -23,7 +23,13 @@ $$('.reveal').forEach(el=>io.observe(el));
 /* typewriter */
 const tw=$('#typewriterText');
 if(tw){
- const roles=['Full Stack Developer','Software Engineer','AI-Powered Solutions Builder','Security-Focused Developer','Backend & API Engineer'];
+ const roles = [
+   "Software Engineer",
+   "Full-Stack Developer",
+   "Backend Engineer",
+   "API & Systems Developer",
+   "Offensive Security Engineer",
+ ];
  let r=0,c=roles[0].length,del=true;
  const tick=()=>{const cur=roles[r];c+=del?-1:1;tw.textContent=cur.slice(0,c);let d=del?40:80;
   if(!del&&c===cur.length){d=1800;del=true}else if(del&&c===0){del=false;r=(r+1)%roles.length;d=350}setTimeout(tick,d)};
@@ -53,13 +59,50 @@ $('#vnwModalX').addEventListener('click',closeVm);vm.addEventListener('click',e=
 addEventListener('keydown',e=>{if(e.key==='Escape'){closeVm();closeLb();closeMenu()}});
 /* toast + copy email */
 const toast=$('#toastNotice'),tm=$('#toastMsg');
-const say=m=>{tm.textContent=m;toast.classList.add('show');clearTimeout(say.t);say.t=setTimeout(()=>toast.classList.remove('show'),2800)};
+const say=m=>{tm.textContent=m;toast.classList.add('show');clearTimeout(say.t);say.t=setTimeout(()=>toast.classList.remove('show'),3200)};
 const em=$('#contactEmailCard');
-if(em)em.addEventListener('click',()=>navigator.clipboard.writeText('vinayakanw@gmail.com').then(()=>say('Copied vinayakanw@gmail.com to clipboard!')).catch(()=>say('Contact: vinayakanw@gmail.com')));
-/* contact form -> opens mail client (no backend needed) */
-window.handleContactSubmit=e=>{e.preventDefault();const f=e.target,v=n=>f.elements[n].value;
- location.href='mailto:vinayakanw@gmail.com?subject='+encodeURIComponent('Portfolio message from '+v('name'))+'&body='+encodeURIComponent(v('message')+'\n\n— '+v('name')+' ('+v('email')+')');
- say('Opening your mail app…');f.reset()};
+if(em){
+  em.addEventListener('click',()=>{
+    navigator.clipboard.writeText('vinayakanw@gmail.com').catch(()=>{});
+    say('Copied vinayakanw@gmail.com to clipboard! Opening compose…');
+  });
+}
+/* contact form -> submit directly to vinayakanw@gmail.com via FormSubmit with fallback */
+window.handleContactSubmit=async e=>{
+  e.preventDefault();
+  const f=e.target,v=n=>(f.elements[n]?f.elements[n].value.trim():'');
+  const btn=f.querySelector('button[type="submit"]')||$('#contactSubmitBtn');
+  const origBtn=btn?btn.innerHTML:'';
+  const name=v('name'),email=v('email'),message=v('message');
+  if(!name||!email||!message){say('Please complete all fields before sending.');return}
+  if(btn){btn.disabled=true;btn.innerHTML='<span>Sending Message…</span>'}
+  try{
+    const fd=new FormData(f);
+    const res=await fetch('https://formsubmit.co/ajax/vinayakanw@gmail.com',{
+      method:'POST',
+      body:fd,
+      headers:{'Accept':'application/json'}
+    });
+    if(res.ok){
+      say('✓ Thank you '+name+'! Your message has been sent to Vinayaka.');
+      f.reset();
+      if(btn){
+        btn.innerHTML='<span>✓ Message Sent!</span>';
+        setTimeout(()=>{btn.disabled=false;btn.innerHTML=origBtn},3500);
+      }
+      return;
+    }
+    throw new Error('Server returned '+res.status);
+  }catch(err){
+    say('Opening mail composer to send directly…');
+    const mailUrl='https://mail.google.com/mail/?view=cm&fs=1&to=vinayakanw@gmail.com&su='+
+      encodeURIComponent('Portfolio message from '+name)+
+      '&body='+encodeURIComponent(message+'\n\n— '+name+' ('+email+')');
+    window.open(mailUrl,'_blank')||(location.href='mailto:vinayakanw@gmail.com?subject='+encodeURIComponent('Portfolio message from '+name)+'&body='+encodeURIComponent(message+'\n\n— '+name+' ('+email+')'));
+    f.reset();
+    if(btn){btn.disabled=false;btn.innerHTML=origBtn}
+  }
+};
 
 /* ---- extras: progress, back-to-top, filters, intro, chatbot ---- */
 const pb=$('#vnwProgress'),tp=$('#vnwTop');
@@ -85,7 +128,7 @@ $$('.vnw-prompt:not(.hero-prompt)').forEach(p=>{p.dataset.t=p.textContent;p.text
 const fab=$('#botFab'),box=$('#botBox'),msgs=$('#botMsgs');
 const tgl=o=>{box.classList.toggle('open',o);box.setAttribute('aria-hidden',!o);fab.setAttribute('aria-expanded',o);if(o)setTimeout(()=>$('#botIn').focus(),250)};
 fab.addEventListener('click',()=>tgl(!box.classList.contains('open')));$('#botX').addEventListener('click',()=>tgl(false));
-const KB=[[/skill|tech|stack|know|language/,'Vinayaka works with HTML/CSS, JavaScript, React, Tailwind (frontend); Python, Node.js, Express, REST APIs, PostgreSQL, MongoDB (backend); testing & secure coding; Machine Learning, LLMs and Generative AI; plus AWS, Docker, Git and Vercel.'],
+const KB=[[/skill|tech|stack|know|language/,'Vinayaka works with HTML/CSS, JavaScript, React, Tailwind (frontend); Python, Node.js, Express, REST APIs, PostgreSQL, MongoDB (backend); Offensive Security (Burp Suite, Nmap, Linux, Metasploit, Wireshark, OWASP ZAP); Machine Learning, LLMs and Generative AI; plus AWS, Docker, Git and Vercel.'],
 [/project|built|work|portfolio/,'He has built 8 projects, including Raksha-Vyuh (AI phishing detection), IntelliCrop (smart agriculture), Smart Student Assistant, GramAI Hub, CineSense, OmniCast, MediVerify and Mattakshra. Source code is private; live demos are coming soon.'],
 [/cert|course|oracle|jp|morgan|walmart|tryhackme|nptel/,'Certifications: Oracle OCI Generative AI Professional, J.P. Morgan Software Engineering Simulation, Walmart Advanced SWE Simulation, TryHackMe Cyber Security 101, NPTEL Internet Crimes & Cyber Security, HCL GUVI STaR scholarship, and a Nestlé e-learning course.'],
 [/kavalu|founder|startup|security engine/,'Vinayaka is the founder of Kavalu Labs, which provides evidence-led security testing — website security, web application and API testing, vulnerability assessment and configuration review — and built the Kavalu Security Engine. See kavalu-labs.nayaka100.in.'],
