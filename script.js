@@ -13,6 +13,7 @@ addEventListener('scroll',onScroll,{passive:true});onScroll();
 const hb=$('#navHamburger'),mm=$('#mobileMenu');
 const closeMenu=()=>{hb.classList.remove('active');mm.classList.remove('active');document.body.style.overflow=''};
 hb.addEventListener('click',()=>{hb.classList.toggle('active');mm.classList.toggle('active');document.body.style.overflow=mm.classList.contains('active')?'hidden':''});
+$$('.mobile-nav-link').forEach(l=>{const h=l.getAttribute('href');if(h&&!h.startsWith('#'))l.addEventListener('click',closeMenu)});
 /* smooth anchors */
 $$('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const h=a.getAttribute('href');if(h.length<2)return;const t=$(h);if(!t)return;
  e.preventDefault();closeMenu();clicking=true;clearTimeout(ct);setActive(h);
@@ -51,7 +52,7 @@ const closeLb=()=>{lb.classList.remove('active');document.body.style.overflow=''
 $$('[data-cert-src]').forEach(c=>c.addEventListener('click',()=>{li.src=c.dataset.certSrc;$('#lightboxTitle').textContent=c.dataset.certTitle||'Certificate';$('#lightboxCaption').textContent=c.dataset.certCaption||'';lb.classList.add('active');document.body.style.overflow='hidden'}));
 $('#lightboxCloseBtn').addEventListener('click',closeLb);lb.addEventListener('click',e=>{if(e.target===lb)closeLb()});
 /* coming-soon modal */
-const M={demo:['LIVE DEMO','This project is currently being updated and refined. The live demo will be available soon.','In Development'],resume:['RESUME',"I'm currently updating my resume with my latest projects and experience. Check back soon!",'Updating']};
+const M={demo:['LIVE DEMO','This project is currently being updated and refined. The live demo will be available soon.','In Development'],resume:['RESUME',"Vinayaka's resume is ready to view and download at vinayakanw_resume.pdf.",'Available']};
 const vm=$('#vnwModal'),closeVm=()=>{vm.classList.remove('active');vm.setAttribute('aria-hidden','true')};
 $$('[data-modal]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();closeMenu();const m=M[a.dataset.modal];
  $('#vmLabel').textContent=m[0];$('#vmDesc').textContent=m[1];$('#vmStatus').textContent=m[2];vm.classList.add('active');vm.setAttribute('aria-hidden','false')}));
@@ -136,6 +137,7 @@ const KB=[[/skill|tech|stack|know|language/,'Vinayaka works with HTML/CSS, JavaS
 [/hack|achiev|award|top|sih|leap|belagavi|winner/,'Hackathons: LEAP Hackathon 2026 — 2nd Runner-up (Hubballi Regional Hub, IIIT Dharwad); Smart India Hackathon 2024 — National Winner; Hack2Future 2.0 — Top 10; Make for Belagavi — Top 15. He also earned the HCL GUVI STaR scholarship.'],
 [/educ|college|cgpa|degree|study|b\.?tech/,'B.Tech in Computer Science, 2023 – 2027, CGPA 8.6/10.'],
 [/focus|learning|goal|future|now/,'Current focus: Cloud Computing, AI Agents, RAG and Microservices. Goal: grow as a Software Engineer building reliable, real-world solutions.'],
+[/resume|cv/,"You can view and download Vinayaka's resume using the Resume button in the navigation or directly at vinayakanw_resume.pdf."],
 [/contact|email|mail|hire|reach|linkedin|intern/,'Email: vinayakanw@gmail.com · LinkedIn: linkedin.com/in/vinayaka-n-walishettar. He is open to internships and opportunities.'],
 [/hi|hello|hey|who/,'Hi! Vinayaka N Walishettar is a Full Stack Developer building secure, scalable and AI-powered applications.']];
 const ask=q=>{const m=document.createElement('div');m.className='m me';m.textContent=q;msgs.appendChild(m);
