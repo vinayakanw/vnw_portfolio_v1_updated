@@ -9704,6 +9704,7 @@ html[data-theme="white"] {
 .contact-statement-card {
   background: var(--bg-card);
   border: 1px solid var(--border-light);
+  border-left: 4px solid var(--accent-primary);
   border-radius: 4px;
   padding: 34px 36px;
   display: flex;
@@ -9712,15 +9713,21 @@ html[data-theme="white"] {
   box-shadow: none;
   transition:
     border-color 0.25s ease,
-    background 0.25s ease;
+    background 0.25s ease,
+    transform 0.25s var(--ease-out);
 }
 .contact-statement-card:hover {
   border-color: var(--accent-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 .statement-headline {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
+  border-bottom: 2px solid var(--accent-primary);
+  padding-bottom: 14px;
+  margin-bottom: 10px;
 }
 .statement-line {
   font-family:
@@ -9728,8 +9735,8 @@ html[data-theme="white"] {
     -apple-system,
     BlinkMacSystemFont,
     sans-serif !important;
-  font-size: clamp(2.2rem, 4.8vw, 3.5rem);
-  font-weight: 700;
+  font-size: clamp(2.6rem, 5.2vw, 4rem);
+  font-weight: 800;
   line-height: 1.05;
   letter-spacing: -0.03em;
   text-transform: uppercase;
@@ -9744,9 +9751,9 @@ html[data-theme="white"] {
     -apple-system,
     BlinkMacSystemFont,
     sans-serif !important;
-  font-size: clamp(1rem, 1.3vw, 1.15rem);
-  font-weight: 400;
-  line-height: 1.6;
+  font-size: clamp(1.05rem, 1.4vw, 1.2rem);
+  font-weight: 500;
+  line-height: 1.7;
   color: var(--text-secondary);
   margin: 0;
   letter-spacing: -0.01em;
@@ -9755,8 +9762,13 @@ html[data-theme="white"] {
   .contact-statement-card {
     padding: 24px 20px;
     gap: 14px;
+    border-left-width: 3px;
+  }
+  .statement-headline {
+    padding-bottom: 10px;
+    margin-bottom: 8px;
   }
   .statement-line {
-    font-size: clamp(1.8rem, 8vw, 2.4rem);
+    font-size: clamp(2rem, 8vw, 2.8rem);
   }
 }
